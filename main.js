@@ -1,14 +1,47 @@
 (function main(){
 
    const canvas = document.getElementById('screen');
-   const gl = canvas.getContext('webgl');
+   const context = canvas.getContext('2d');
 
-   if(!gl) {
-      alert("Unable to initialize WebGL");
-      return;
+   const keys = {
+      "space": 20
    }
 
-   gl.clearColor(0.0, 0.0, 0.0, 1.0);
-   gl.clear(gl.COLOR_BUFFER_BIT);
+   const fps = 60;
+   const grid = new Vector2d(6, 6);
+
+   var state =
+
+   setInterval(function step() {
+      state.input();
+      state.update();
+      state.draw();
+   }, 1000/fps);
 
 })();
+
+function Introduction() {
+
+   //game name label
+   var nameLabel;
+   //game start label
+   var startLabel;
+
+   //nameLabel come in animation
+   //gameStart opacity animation
+
+   function input(event) {
+      if(event.key.code == keys.space) {
+
+      }
+   }
+
+   function update() {
+
+   }
+
+   function draw() {
+
+   }
+
+}

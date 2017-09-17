@@ -8,8 +8,24 @@ Tura gracza - próba odtworzenia trasy
 
 - pojawia się napis generowanie trasy i pokazywana jest trasa do zapamiętania
 
+Stany:
+- pojawienie się nazwy gry i polecenia wciśnięcia przycisku aby rozpocząć
+- animacja wysuwania napisu
+- animacja pojawiania się napisu
+- oczekiwanie na klawisz - po wciśnięciu kolejny state
+
+- pojawienie się napisu generowanie ścieżki
+- zależnie od poziomu pokazanie wybranych klatek poprzez podświetlenie
+
+- pojawienie się napisu odtwórz drogę
+- po kliknięciu jeśli wybraliśmy poprawnie zielone podświetlenie klatki w
+  przeciwnym razie czerwone i napis przegrana
+   - oczekiwanie na przycisk, który skieruje na ten sam poziom
+- jeśli całą drogę odtworzyliśmy poprawnie napis wygrana
+   - oczekiwanie na przycisk, który skieruje na następny poziom
+
 Taski:
 - mapa
    - rysowanie
 - generowanie trasy
-- 
+-
