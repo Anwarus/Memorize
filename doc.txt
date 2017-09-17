@@ -1,0 +1,15 @@
+//Rozmyślania
+
+Memorize.
+
+Plansza w wyznaczonych wymiarach (np. 3x3)
+Losowanie trasy z wyznaczoną liczbą kroków
+Tura gracza - próba odtworzenia trasy
+
+- pojawia się napis generowanie trasy i pokazywana jest trasa do zapamiętania
+
+Taski:
+- mapa
+   - rysowanie
+- generowanie trasy
+- 
