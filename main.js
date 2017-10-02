@@ -52,6 +52,7 @@ function Introduction() {
                                new Text(WIDTH/2, HEIGHT/1.5, "Press any key", COLORS.second));
 
    //nameLabel come in animation
+   this.nameLabelAnimation = new Transition(0, HEIGHT/2, .5, .2);
    //gameStart opacity animation
 
    this.input = function(event) {
@@ -61,7 +62,8 @@ function Introduction() {
    }
 
    this.update = function() {
-
+      this.nameLabelAnimation.update();
+      this.nameLabel.rectangle.position.y = this.nameLabelAnimation.current;
    }
 
    this.draw = function() {
@@ -107,23 +109,34 @@ function Label(rectangle, text) {
    }
 }
 
-function Transition(start, end, velocity, acceleration) {
+function Transition(start, end, velocity, acceleration, loop) {
    this.start = start;
    this.end = end;
-   this.current = this.start;
+   this.current = start;
 
-   this.ascending = start > end ? False : True;
+   this.ascending = start > end ? false : true;
+   this.done = false;
+   this.loop = loop || false;
 
+   this.initialVelocity = velocity;
    this.velocity = velocity;
    this.acceleration = acceleration;
 
    this.update = function() {
-      this.velocity += this.acceleration;
-      this.current += this.velocity;
+      if(!this.done) {
+         this.velocity += this.acceleration;
+         this.current += this.velocity;
+      }
 
-      //If transition end
-      if((ascending && (this.start >= end)) || (!ascending && (this.start <=end))) {
+      //If transition should end
+      if((this.ascending && (this.current >= this.end)) || (!this.ascending && (this.current <= this.end))) {
+         this.done = true;
 
+         if(this.loop) {
+            this.done = false;
+            this.current = this.start;
+            this.velocity = this.initialVelocity;
+         }
       }
    }
 }
