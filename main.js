@@ -7,7 +7,7 @@
    HEIGHT = CANVAS.height;
 
    FONT_NAME = "Arial";
-   FONT_SIZE = 30;
+   FONT_SIZE = 24;
 
    CONTEXT.font = FONT_SIZE.toString() + "px " + FONT_NAME;
    CONTEXT.textAlign = "center";
@@ -86,6 +86,14 @@ function Rectangle(x, y, width, height, color, lineWidth) {
       CONTEXT.rect(this.position.x, this.position.y, this.size.x, this.size.y);
       CONTEXT.stroke();
    }
+
+   this.setPosition(x, y) = function() {
+      this.position = new Vector2d(x - this.size.x/2, y - this.size.y/2);
+   }
+
+   this.getPosition() = function() {
+      return new Vector2d(this.position.x + this.size.x/2, this.position.y + this.size.y/2)
+   }
 }
 
 function Text(x, y, text, color) {
@@ -97,6 +105,14 @@ function Text(x, y, text, color) {
       CONTEXT.fillStyle = this.color;
       CONTEXT.fillText(this.text, this.position.x, this.position.y);
    }
+
+   this.setPosition = function(x, y) {
+      this.position = new Vector2d(x, y + FONT_SIZE/2);
+   }
+
+   this.getPosition = function() {
+      return new Vector2d(x, y - FONT_SIZE/2);
+   }
 }
 
 function Label(rectangle, text) {
@@ -106,6 +122,15 @@ function Label(rectangle, text) {
    this.draw = function() {
       this.rectangle.draw();
       this.text.draw();
+   }
+
+   this.setPosition = function(x, y) {
+      this.rectangle.setPosition(x, y);
+      this.text.setPosition(x, y);
+   }
+
+   this.getPosition = function() {
+      return this.text.getPosition();
    }
 }
 
