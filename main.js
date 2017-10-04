@@ -51,9 +51,9 @@ function Introduction() {
    this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, COLORS.first, 3),
                                new Text(WIDTH/2, HEIGHT/1.5, "Press any key", COLORS.second));
 
-   //nameLabel come in animation
-   this.nameLabelAnimation = new Transition(0, HEIGHT/2, .5, .2);
+   this.nameLabelAnimation = new Transition(0, HEIGHT/2, .3, .05);
    //gameStart opacity animation
+   this.gameStartAnimation = new Transition(0.0, 1.0, .01, .01);
 
    this.input = function(event) {
       //if(event.key.code == keys.space) {
@@ -63,7 +63,9 @@ function Introduction() {
 
    this.update = function() {
       this.nameLabelAnimation.update();
-      this.nameLabel.rectangle.position.y = this.nameLabelAnimation.current;
+      this.nameLabel.setPosition(this.nameLabel.getPosition().x, this.nameLabelAnimation.current);
+
+      this.gameStartAnimation.update();
    }
 
    this.draw = function() {
@@ -87,11 +89,11 @@ function Rectangle(x, y, width, height, color, lineWidth) {
       CONTEXT.stroke();
    }
 
-   this.setPosition(x, y) = function() {
+   this.setPosition = function(x, y) {
       this.position = new Vector2d(x - this.size.x/2, y - this.size.y/2);
    }
 
-   this.getPosition() = function() {
+   this.getPosition = function() {
       return new Vector2d(this.position.x + this.size.x/2, this.position.y + this.size.y/2)
    }
 }
@@ -131,6 +133,10 @@ function Label(rectangle, text) {
 
    this.getPosition = function() {
       return this.text.getPosition();
+   }
+
+   this.setColor = function() {
+
    }
 }
 
