@@ -171,3 +171,10 @@ function Transition(start, end, velocity, acceleration, loop) {
       }
    }
 }
+
+function Color(r, g, b, a) {
+   this.r = r;
+   this.g = g;
+   this.b = b;
+   this.a = a;
+}
