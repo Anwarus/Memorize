@@ -12,8 +12,6 @@
    CONTEXT.font = FONT_SIZE.toString() + "px " + FONT_NAME;
    CONTEXT.textAlign = "center";
 
-   BACKGROUND_COLOR = "#";
-
    const FPS = 60;
 
    const KEYS = {
@@ -21,11 +19,11 @@
    }
 
    COLORS = {
-      "background": "#171219",
-      "first":      "#225560",
-      "second":     "#EDF060",
-      "third":      "#F0803C",
-      "forth":      "#310D20"
+      "background": new Color(23, 18, 25),
+      "first":      new Color(34, 85, 96),
+      "second":     new Color(237, 240, 96),
+      "third":      new Color(240, 128, 60),
+      "forth":      new Color(49, 13, 32)
    }
 
    const grid = new Vector2d(6, 6);
@@ -53,7 +51,7 @@ function Introduction() {
 
    this.nameLabelAnimation = new Transition(0, HEIGHT/2, .3, .05);
    //gameStart opacity animation
-   this.gameStartAnimation = new Transition(0.0, 1.0, .01, .01);
+   this.gameStartAnimation = new Transition(0.0, 1.0, .001, .001, true);
 
    this.input = function(event) {
       //if(event.key.code == keys.space) {
@@ -66,6 +64,8 @@ function Introduction() {
       this.nameLabel.setPosition(this.nameLabel.getPosition().x, this.nameLabelAnimation.current);
 
       this.gameStartAnimation.update();
+      this.startLabel.rectangle.color.update(new Color(null, null, null, this.gameStartAnimation.current));
+      this.startLabel.text.color.update(new Color(null, null, null, this.gameStartAnimation.current));
    }
 
    this.draw = function() {
@@ -78,12 +78,12 @@ function Introduction() {
 function Rectangle(x, y, width, height, color, lineWidth) {
    this.position = new Vector2d(x - width/2, y - height/2);
    this.size = new Vector2d(width, height);
-   this.color = color || "#ffffff";
+   this.color = color || new Color(255, 255, 255);
    this.lineWidth = lineWidth || 3;
 
    this.draw = function() {
       CONTEXT.beginPath();
-      CONTEXT.strokeStyle = this.color;
+      CONTEXT.strokeStyle = this.color.toString();
       CONTEXT.lineWidth = this.lineWidth;
       CONTEXT.rect(this.position.x, this.position.y, this.size.x, this.size.y);
       CONTEXT.stroke();
@@ -101,10 +101,10 @@ function Rectangle(x, y, width, height, color, lineWidth) {
 function Text(x, y, text, color) {
    this.position = new Vector2d(x, y + FONT_SIZE/2);
    this.text = text;
-   this.color = color;
+   this.color = color || new Color(255, 255, 255);
 
    this.draw = function() {
-      CONTEXT.fillStyle = this.color;
+      CONTEXT.fillStyle = this.color.toString();
       CONTEXT.fillText(this.text, this.position.x, this.position.y);
    }
 
@@ -133,10 +133,6 @@ function Label(rectangle, text) {
 
    this.getPosition = function() {
       return this.text.getPosition();
-   }
-
-   this.setColor = function() {
-
    }
 }
 
@@ -176,5 +172,20 @@ function Color(r, g, b, a) {
    this.r = r;
    this.g = g;
    this.b = b;
-   this.a = a;
+   this.a = a || 1.0;
+
+   this.toString = function() {
+   		return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+   }
+
+   this.update = function(color) {
+      if(color.r != null)
+         this.r = color.r;
+      if(color.g != null)
+         this.g = color.g;
+      if(color.b != null)
+         this.b = color.b;
+      if(color.a != null)
+         this.a = color.a;
+  }
 }
