@@ -19,11 +19,11 @@
    }
 
    COLORS = {
-      "background": new Color(23, 18, 25),
-      "first":      new Color(34, 85, 96),
-      "second":     new Color(237, 240, 96),
-      "third":      new Color(240, 128, 60),
-      "forth":      new Color(49, 13, 32)
+      "background": {r: 23,  g: 18,  b: 25},
+      "first":      {r: 34,  g: 85,  b: 96},
+      "second":     {r: 237, g: 240, b: 96},
+      "third":      {r: 240, g: 128, b: 60},
+      "forth":      {r: 49,  g: 13,  b: 32}
    }
 
    const grid = new Vector2d(6, 6);
@@ -33,7 +33,7 @@
    setInterval(function step() {
       state.input();
       state.update();
-      CONTEXT.fillStyle = COLORS.background;
+      CONTEXT.fillStyle = new Color(COLORS.background).toString();
       CONTEXT.fillRect(0, 0, WIDTH, HEIGHT);
       state.draw();
    }, 1000/FPS);
@@ -43,11 +43,11 @@
 function Introduction() {
 
    //game name label
-   this.nameLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/2, 140, 60, new Color(COLORS.first.r, COLORS.first.g, COLORS.first.b), 3),
-                               new Text(WIDTH/2, HEIGHT/2, "Memorize", new Color(COLORS.second.r, COLORS.second.g, COLORS.second.b)));
+   this.nameLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/2, 140, 60, new Color(COLORS.first), 3),
+                               new Text(WIDTH/2, HEIGHT/2, "Memorize", new Color(COLORS.second)));
    //game start label
-   this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, new Color(COLORS.first.r, COLORS.first.g, COLORS.first.b), 3),
-                               new Text(WIDTH/2, HEIGHT/1.5, "Press any key", new Color(COLORS.second.r, COLORS.second.g, COLORS.second.b)));
+   this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, new Color(COLORS.first), 3),
+                               new Text(WIDTH/2, HEIGHT/1.5, "Press any key", new Color(COLORS.second)));
 
    this.nameLabelAnimation = new Transition(0, HEIGHT/2, .3, .05);
    //gameStart opacity animation
@@ -64,8 +64,6 @@ function Introduction() {
       this.nameLabel.setPosition(this.nameLabel.getPosition().x, this.nameLabelAnimation.current);
 
       this.gameStartAnimation.update();
-      this.startLabel.rectangle.color.update(new Color(null, null, null, this.gameStartAnimation.current));
-      this.startLabel.text.color.update(new Color(null, null, null, this.gameStartAnimation.current));
    }
 
    this.draw = function() {
@@ -168,16 +166,17 @@ function Transition(start, end, velocity, acceleration, loop) {
    }
 }
 
-function Color(r, g, b, a) {
-   this.r = r;
-   this.g = g;
-   this.b = b;
-   this.a = a || 1.0;
+function Color(params) {
+   this.r = params.r || 255;
+   this.g = params.g || 255;
+   this.b = params.b || 255;
+   this.a = params.a || 1.0;
 
    this.toString = function() {
    		return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
    }
 
+   //TODO delete probably i hope
    this.update = function(color) {
       if(color.r != null)
          this.r = color.r;
