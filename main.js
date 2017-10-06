@@ -43,15 +43,15 @@
 function Introduction() {
 
    //game name label
-   this.nameLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/2, 140, 60, COLORS.first, 3),
-                               new Text(WIDTH/2, HEIGHT/2, "Memorize", COLORS.second));
+   this.nameLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/2, 140, 60, new Color(COLORS.first.r, COLORS.first.g, COLORS.first.b), 3),
+                               new Text(WIDTH/2, HEIGHT/2, "Memorize", new Color(COLORS.second.r, COLORS.second.g, COLORS.second.b)));
    //game start label
-   this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, COLORS.first, 3),
-                               new Text(WIDTH/2, HEIGHT/1.5, "Press any key", COLORS.second));
+   this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, new Color(COLORS.first.r, COLORS.first.g, COLORS.first.b), 3),
+                               new Text(WIDTH/2, HEIGHT/1.5, "Press any key", new Color(COLORS.second.r, COLORS.second.g, COLORS.second.b)));
 
    this.nameLabelAnimation = new Transition(0, HEIGHT/2, .3, .05);
    //gameStart opacity animation
-   this.gameStartAnimation = new Transition(0.0, 1.0, .001, .001, true);
+   this.gameStartAnimation = new Transition(0.0, 1.0, .0001, .00015);
 
    this.input = function(event) {
       //if(event.key.code == keys.space) {
