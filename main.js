@@ -43,15 +43,40 @@
 function Introduction() {
 
    //game name label
-   this.nameLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/2, 140, 60, new Color(COLORS.first), 3),
-                               new Text(WIDTH/2, HEIGHT/2, "Memorize", new Color(COLORS.second)));
+   this.nameLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/2), new Rectangle(0, 0, 140, 60, new Color(COLORS.first), 3),
+                               new Text(0, 0, "Memorize", new Color(COLORS.second)));
    //game start label
-   this.startLabel = new Label(new Rectangle(WIDTH/2, HEIGHT/1.5, 200, 60, new Color(COLORS.first), 3),
-                               new Text(WIDTH/2, HEIGHT/1.5, "Press any key", new Color(COLORS.second)));
+   this.startLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/1.5), new Rectangle(0, 0, 200, 60, new Color(COLORS.first), 3),
+                               new Text(0, 0, "Press any key", new Color(COLORS.second)));
 
-   this.nameLabelAnimation = new Transition(0, HEIGHT/2, .3, .05);
-   //gameStart opacity animation
-   this.gameStartAnimation = new Transition(0.0, 1.0, .0001, .00015);
+   this.nameLabelAnimation = new Transition({
+      target: this.nameLabel.position,
+      property: "y",
+      start: 0,
+      end: HEIGHT/2,
+      velocity: .3,
+      acceleration: .05
+   });
+
+   //this.gameStartAnimation = new Transition(0.0, 1.0, .0001, .00015);
+   this.nameLabelRectangleAnimation = new Transition({
+      target: this.startLabel.rectangle.color,
+      property: "a",
+      start: 0,
+      end: 1.0,
+      velocity: .0001,
+      acceleration: .00015,
+      loop: true
+   });
+
+   this.nameLabelTextAnimation = new Transition({
+      target: this.startLabel.text.color,
+      property: "a",
+      start: 0,
+      end: 1.0,
+      velocity: .0001,
+      acceleration: .00015
+   });
 
    this.input = function(event) {
       //if(event.key.code == keys.space) {
@@ -61,9 +86,9 @@ function Introduction() {
 
    this.update = function() {
       this.nameLabelAnimation.update();
-      this.nameLabel.setPosition(this.nameLabel.getPosition().x, this.nameLabelAnimation.current);
+      this.nameLabelRectangleAnimation.update();
+      this.nameLabelTextAnimation.update();
 
-      this.gameStartAnimation.update();
    }
 
    this.draw = function() {
@@ -79,11 +104,18 @@ function Rectangle(x, y, width, height, color, lineWidth) {
    this.color = color || new Color(255, 255, 255);
    this.lineWidth = lineWidth || 3;
 
+   this.parent = null;
+
    this.draw = function() {
+      var absolutePosition = new Vector2d(this.position.x, this.position.y);
+
+      if(this.parent != null)
+         absolutePosition.add(this.parent.position);
+
       CONTEXT.beginPath();
       CONTEXT.strokeStyle = this.color.toString();
       CONTEXT.lineWidth = this.lineWidth;
-      CONTEXT.rect(this.position.x, this.position.y, this.size.x, this.size.y);
+      CONTEXT.rect(absolutePosition.x, absolutePosition.y, this.size.x, this.size.y);
       CONTEXT.stroke();
    }
 
@@ -101,9 +133,16 @@ function Text(x, y, text, color) {
    this.text = text;
    this.color = color || new Color(255, 255, 255);
 
+   this.parent = null;
+
    this.draw = function() {
+      var absolutePosition = new Vector2d(this.position.x, this.position.y);
+
+      if(this.parent != null)
+         absolutePosition.add(this.parent.position);
+
       CONTEXT.fillStyle = this.color.toString();
-      CONTEXT.fillText(this.text, this.position.x, this.position.y);
+      CONTEXT.fillText(this.text, absolutePosition.x, absolutePosition.y);
    }
 
    this.setPosition = function(x, y) {
@@ -115,9 +154,13 @@ function Text(x, y, text, color) {
    }
 }
 
-function Label(rectangle, text) {
+function Label(position, rectangle, text) {
+   this.position = position
    this.rectangle = rectangle;
    this.text = text;
+
+   this.rectangle.parent = this;
+   this.text.parent = this;
 
    this.draw = function() {
       this.rectangle.draw();
@@ -134,32 +177,48 @@ function Label(rectangle, text) {
    }
 }
 
-function Transition(start, end, velocity, acceleration, loop) {
-   this.start = start;
-   this.end = end;
-   this.current = start;
+function Transition(params) {
 
-   this.ascending = start > end ? false : true;
+   // target - to get reference to object to animate
+   // property - exact value to manipulate
+   // start
+   // end
+   // velocity
+   // acceleration
+   // loop
+   // backtrace
+
+   this.target = params.target;
+   this.property = params.property;
+
+   params.target[params.property] = params.start;
+
+   this.start = params.start;
+   this.end = params.end;
+
+   this.loop = params.loop || false;
+   this.backtrace = params.backtrace || false;
+
+   this.initialVelocity = params.velocity;
+   this.velocity = params.velocity;
+   this.acceleration = params.acceleration;
+
+   this.ascending = params.start > params.end ? false : true;
    this.done = false;
-   this.loop = loop || false;
-
-   this.initialVelocity = velocity;
-   this.velocity = velocity;
-   this.acceleration = acceleration;
 
    this.update = function() {
       if(!this.done) {
          this.velocity += this.acceleration;
-         this.current += this.velocity;
+         this.target[this.property] += this.velocity;
       }
 
       //If transition should end
-      if((this.ascending && (this.current >= this.end)) || (!this.ascending && (this.current <= this.end))) {
+      if((this.ascending && (this.target[this.property] >= this.end)) || (!this.ascending && (this.target[this.property] <= this.end))) {
          this.done = true;
 
          if(this.loop) {
             this.done = false;
-            this.current = this.start;
+            this.target[this.property] = this.start;
             this.velocity = this.initialVelocity;
          }
       }
