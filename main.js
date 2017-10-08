@@ -14,8 +14,8 @@
 
    const FPS = 60;
 
-   const KEYS = {
-      "space": 20
+   KEYS = {
+      "space": 32
    }
 
    COLORS = {
@@ -28,10 +28,14 @@
 
    const grid = new Vector2d(6, 6);
 
-   var state = new Introduction();
+   state = new Introduction();
+
+   document.addEventListener("keyup", function(event) {
+      state.input(event);
+   });
 
    setInterval(function step() {
-      state.input();
+      //state.input();
       state.update();
       CONTEXT.fillStyle = new Color(COLORS.background).toString();
       CONTEXT.fillRect(0, 0, WIDTH, HEIGHT);
@@ -79,21 +83,48 @@ function Introduction() {
    });
 
    this.input = function(event) {
-      //if(event.key.code == keys.space) {
-
-      //}
+      if(event.keyCode == KEYS.space) {
+         state = new Generation();
+      }
    }
 
    this.update = function() {
       this.nameLabelAnimation.update();
       this.nameLabelRectangleAnimation.update();
       this.nameLabelTextAnimation.update();
-
    }
 
    this.draw = function() {
       this.nameLabel.draw();
       this.startLabel.draw();
    }
+}
 
+function Generation() {
+   //game name label
+   this.generateLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/2), new Rectangle(0, 0, 140, 60, new Color(COLORS.first), 3),
+                               new Text(0, 0, "Generating", new Color(COLORS.second)));
+
+   this.generateLabelAnimation = new Transition({
+      target: this.generateLabel.position,
+      property: "y",
+      start: 0,
+      end: HEIGHT/2,
+      velocity: .3,
+      acceleration: .05
+   });
+
+   this.input = function(event) {
+      //if(event.key.code == keys.space) {
+
+      //}
+   }
+
+   this.update = function() {
+      this.generateLabelAnimation.update();
+   }
+
+   this.draw = function() {
+      this.generateLabel.draw();
+   }
 }
