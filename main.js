@@ -26,7 +26,9 @@
       "forth":      {r: 49,  g: 13,  b: 32}
    }
 
-   const grid = new Vector2d(6, 6);
+   GRID = new Vector2d(12, 12);
+   CELL_SIZE = new Vector2d(50, 50);
+   CELL_SPACE = 5;
 
    state = new Introduction();
 
@@ -84,7 +86,7 @@ function Introduction() {
 
    this.input = function(event) {
       if(event.keyCode == KEYS.space) {
-         state = new Generation();
+         state = new Path();
       }
    }
 
@@ -115,9 +117,7 @@ function Generation() {
    });
 
    this.input = function(event) {
-      //if(event.key.code == keys.space) {
 
-      //}
    }
 
    this.update = function() {
@@ -126,5 +126,48 @@ function Generation() {
 
    this.draw = function() {
       this.generateLabel.draw();
+   }
+}
+
+function Path() {
+   this.level = 3;
+   this.randomed = 0;
+
+   //Set position for grid to fit center
+   this.position = new Vector2d(WIDTH/2 - ((GRID.x/2 - 0.5) * CELL_SIZE.x) - ((GRID.x/2 - 0.5) * CELL_SPACE),
+                                HEIGHT/2 - ((GRID.x/2 - 0.5) * CELL_SIZE.y) - ((GRID.y/2 - 0.5) * CELL_SPACE));
+
+   this.grid = new Array(GRID.x);
+
+   //Create empty grid
+   for(var i=0; i<this.grid.length; i++) {
+      this.grid[i] = new Array(GRID.y);
+
+      for(var j=0; j<this.grid[i].length; j++)
+         this.grid[i][j] = new Rectangle(0 + i*(CELL_SIZE.x + CELL_SPACE), 0 + j*(CELL_SIZE.y + CELL_SPACE), CELL_SIZE.x, CELL_SIZE.y, new Color(COLORS.first), 3);
+   }
+
+   //Set grid relative position
+   for(var i=0; i<this.grid.length; i++) {
+      for(var j=0; j<this.grid[i].length; j++)
+         this.grid[i][j].parent = this;
+   }
+
+   this.input = function(event) {
+
+   }
+
+   this.update = function() {
+      if(this.randomed < this.level)
+      {
+
+      }
+   }
+
+   this.draw = function() {
+      for(var i=0; i<this.grid.length; i++) {
+         for(var j=0; j<this.grid[i].length; j++)
+            this.grid[i][j].draw();
+      }
    }
 }
