@@ -131,7 +131,7 @@ function Generation() {
 
 function Path() {
    this.level = 3;
-   this.randomed = 0;
+   this.randomed = [];
 
    //Set position for grid to fit center
    this.position = new Vector2d(WIDTH/2 - ((GRID.x/2 - 0.5) * CELL_SIZE.x) - ((GRID.x/2 - 0.5) * CELL_SPACE),
@@ -153,14 +153,46 @@ function Path() {
          this.grid[i][j].parent = this;
    }
 
+   this.randomizingAnimation = null;
+
    this.input = function(event) {
 
    }
 
    this.update = function() {
-      if(this.randomed < this.level)
-      {
+      if(this.randomed.length < this.level && this.randomizingAnimation == null) {
 
+         var selected = [];
+
+         while(true) {
+            var repeated = false;
+            selected = new Vector2d(Math.floor(Math.random() * GRID.x), Math.floor(Math.random() * GRID.y));
+
+            for(var i=0; i<this.randomed.length; i++) {
+               if(this.randomed[i].equal(selected))
+                  repeated = true;
+            }
+
+            if(!repeated)
+               break;
+         }
+
+         this.randomizingAnimation = new Transition({
+            target: this.grid[selected.x][selected.y].color,
+            property: "a",
+            start: 1.0,
+            end: 0,
+            velocity: .0001,
+            acceleration: -.00015
+         });
+
+         this.randomed.push(selected);
+      }
+      else if(this.randomizingAnimation != null) {
+         this.randomizingAnimation.update();
+
+         if(this.randomizingAnimation.done)
+            this.randomizingAnimation = null;
       }
    }
 
