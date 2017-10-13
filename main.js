@@ -26,7 +26,7 @@
       "forth":      {r: 49,  g: 13,  b: 32}
    }
 
-   GRID = new Vector2d(12, 12);
+   GRID = new Vector2d(6, 6);
    CELL_SIZE = new Vector2d(50, 50);
    CELL_SPACE = 5;
 
@@ -154,6 +154,7 @@ function Path() {
    }
 
    this.randomizingAnimation = null;
+   this.randomizingRectangle = null;
 
    this.input = function(event) {
 
@@ -167,6 +168,7 @@ function Path() {
          while(true) {
             var repeated = false;
             selected = new Vector2d(Math.floor(Math.random() * GRID.x), Math.floor(Math.random() * GRID.y));
+            console.log(selected);
 
             for(var i=0; i<this.randomed.length; i++) {
                if(this.randomed[i].equal(selected))
@@ -177,13 +179,18 @@ function Path() {
                break;
          }
 
+         this.randomizingRectangle = new Rectangle(this.grid[selected.x][selected.y].getPosition().x,
+                                                   this.grid[selected.x][selected.y].getPosition().y, CELL_SIZE.x, CELL_SIZE.y, new Color(COLORS.third), 5);
+
+         this.randomizingRectangle.parent = this;
+
          this.randomizingAnimation = new Transition({
-            target: this.grid[selected.x][selected.y].color,
+            target: this.randomizingRectangle.color,
             property: "a",
             start: 1.0,
             end: 0,
-            velocity: .0001,
-            acceleration: -.00015
+            velocity: -0.001,
+            acceleration: -0.00015
          });
 
          this.randomed.push(selected);
@@ -201,5 +208,8 @@ function Path() {
          for(var j=0; j<this.grid[i].length; j++)
             this.grid[i][j].draw();
       }
+
+      if(this.randomizingRectangle != null)
+         this.randomizingRectangle.draw();
    }
 }
