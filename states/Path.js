@@ -37,7 +37,6 @@ function Path() {
          while(true) {
             var repeated = false;
             selected = new Vector2d(Math.floor(Math.random() * GRID.x), Math.floor(Math.random() * GRID.y));
-            console.log(selected);
 
             for(var i=0; i<this.randomed.length; i++) {
                if(this.randomed[i].equal(selected))
@@ -70,6 +69,8 @@ function Path() {
          if(this.randomizingAnimation.done)
             this.randomizingAnimation = null;
       }
+      else
+         state = new Show();
    }
 
    this.draw = function() {

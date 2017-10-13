@@ -37,7 +37,6 @@
    });
 
    setInterval(function step() {
-      //state.input();
       state.update();
       CONTEXT.fillStyle = new Color(COLORS.background).toString();
       CONTEXT.fillRect(0, 0, WIDTH, HEIGHT);

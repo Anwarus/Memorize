@@ -1,5 +1,4 @@
 function Generation() {
-   //game name label
    this.generateLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/2), new Rectangle(0, 0, 140, 60, new Color(COLORS.first), 3),
                                new Text(0, 0, "Generating", new Color(COLORS.second)));
 
