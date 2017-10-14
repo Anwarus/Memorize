@@ -23,7 +23,7 @@
       "first":      {r: 34,  g: 85,  b: 96},
       "second":     {r: 237, g: 240, b: 96},
       "third":      {r: 240, g: 128, b: 60},
-      "forth":      {r: 49,  g: 13,  b: 32}
+      "fourth":     {r: 49,  g: 13,  b: 32}
    }
 
    GRID = new Vector2d(6, 6);
