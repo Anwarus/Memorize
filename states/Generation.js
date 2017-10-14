@@ -12,7 +12,7 @@ function Generation() {
    });
 
    this.input = function(event) {
-
+      
    }
 
    this.update = function() {

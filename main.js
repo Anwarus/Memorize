@@ -36,6 +36,10 @@
       state.input(event);
    });
 
+   document.addEventListener("click", function(event){
+      state.input(event);
+   });
+
    setInterval(function step() {
       state.update();
       CONTEXT.fillStyle = new Color(COLORS.background).toString();

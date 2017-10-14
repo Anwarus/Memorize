@@ -1,4 +1,8 @@
-function Show() {
+function Show(grid, randomed) {
+
+   this.grid = grid;
+   this.selects = randomed;
+
    this.showLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/2), new Rectangle(0, 0, 140, 60, new Color(COLORS.first), 3),
                                new Text(0, 0, "Replay path", new Color(COLORS.second)));
 
@@ -17,6 +21,9 @@ function Show() {
 
    this.update = function() {
       this.showLabelAnimation.update();
+
+      if(this.showLabelAnimation.done)
+         state = new Game(this.grid, this.selects);
    }
 
    this.draw = function() {

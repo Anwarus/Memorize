@@ -70,7 +70,7 @@ function Path() {
             this.randomizingAnimation = null;
       }
       else
-         state = new Show();
+         state = new Show(this.grid, this.randomed);
    }
 
    this.draw = function() {
