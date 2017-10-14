@@ -30,6 +30,8 @@
    CELL_SIZE = new Vector2d(50, 50);
    CELL_SPACE = 5;
 
+   LEVEL = 3;
+
    state = new Introduction();
 
    document.addEventListener("keyup", function(event) {

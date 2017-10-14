@@ -26,4 +26,16 @@ function Rectangle(x, y, width, height, color, lineWidth) {
    this.getPosition = function() {
       return new Vector2d(this.position.x + this.size.x/2, this.position.y + this.size.y/2)
    }
+
+   this.isIntersect = function(point) {
+      var absolutePosition = new Vector2d(this.position.x, this.position.y);
+
+      if(this.parent != null)
+         absolutePosition.add(this.parent.position);
+
+      if(point.x > absolutePosition.x && point.x < (absolutePosition.x + this.size.x) &&
+         point.y > absolutePosition.y && point.y < (absolutePosition.y + this.size.y))
+         return true;
+      return false;
+   }
 }

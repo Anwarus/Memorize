@@ -1,5 +1,5 @@
-function Path() {
-   this.level = 3;
+function Path(level) {
+   this.level = level;
    this.randomed = [];
 
    //Set position for grid to fit center

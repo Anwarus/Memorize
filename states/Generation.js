@@ -1,4 +1,6 @@
-function Generation() {
+function Generation(level) {
+   this.level = level;
+
    this.generateLabel = new Label(new Vector2d(WIDTH/2, HEIGHT/2), new Rectangle(0, 0, 140, 60, new Color(COLORS.first), 3),
                                new Text(0, 0, "Generating", new Color(COLORS.second)));
 
@@ -12,11 +14,14 @@ function Generation() {
    });
 
    this.input = function(event) {
-      
+
    }
 
    this.update = function() {
       this.generateLabelAnimation.update();
+
+      if(this.generateLabelAnimation.done)
+         state = new Path(level);
    }
 
    this.draw = function() {

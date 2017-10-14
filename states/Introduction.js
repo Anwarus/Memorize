@@ -38,7 +38,7 @@ function Introduction() {
 
    this.input = function(event) {
       if(event.keyCode == KEYS.space) {
-         state = new Path();
+         state = new Generation(LEVEL);
       }
    }
 
