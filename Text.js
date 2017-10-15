@@ -7,7 +7,7 @@ function Text(x, y, text, color) {
 
    this.draw = function() {
       var absolutePosition = new Vector2d(this.position.x, this.position.y);
-
+      
       if(this.parent != null)
          absolutePosition.add(this.parent.position);
 

@@ -8,6 +8,8 @@ function Game(grid, randomed) {
    this.selectedAnimation = null;
    this.selectedRectangle = null;
 
+   this.result = new Text(WIDTH/2, 30, "0/" + this.selects.length, new Color(COLORS.second));
+
    this.input = function(event) {
       if(event.which == 1) {
          var rect = CANVAS.getBoundingClientRect();
@@ -34,6 +36,8 @@ function Game(grid, randomed) {
                this.selectedRectangle.draw();
                state = new Win(this.selects.length + 1);
             }
+
+            this.result.text = this.point + "/" + this.selects.length;
          }
          else
             state = new Over();
@@ -60,5 +64,7 @@ function Game(grid, randomed) {
 
       if(this.selectedRectangle != null)
          this.selectedRectangle.draw();
+
+      this.result.draw();
    }
 }
