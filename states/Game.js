@@ -14,7 +14,7 @@ function Game(grid, randomed) {
          if(this.grid[this.selects[this.point].x][this.selects[this.point].y].isIntersect(new Vector2d(event.clientX - rect.left, event.clientY - rect.top)))
          {
             this.selectedRectangle = new Rectangle(this.grid[this.selects[this.point].x][this.selects[this.point].y].getPosition().x,
-                                                   this.grid[this.selects[this.point].x][this.selects[this.point].y].getPosition().y, CELL_SIZE.x, CELL_SIZE.y, new Color(COLORS.fourth), 5);
+                                                   this.grid[this.selects[this.point].x][this.selects[this.point].y].getPosition().y, CELL_SIZE.x, CELL_SIZE.y, new Color(COLORS.second), 5);
 
             this.selectedRectangle.parent = this.grid[this.selects[this.point].x][this.selects[this.point].y].parent;
 
@@ -30,7 +30,10 @@ function Game(grid, randomed) {
             if(this.point != this.selects.length - 1)
                this.point ++;
             else
+            {
+               this.selectedRectangle.draw();
                state = new Win(this.selects.length + 1);
+            }
          }
          else
             state = new Over();
